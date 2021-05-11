@@ -86,4 +86,17 @@
        *Assumed role
        *User data
        *Instance store or Amazon EBS
+       
+       
+       
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Choosing an AMI to launch EC2 Instance
+    Steps:
+       1. Select your Starter AMI (Quick Start or other exising AMI)
+       2. Launch an EC2 instance from the AMI to create an UNMODIFIED INSTANCE
+       3. Connect to the instance adn manually modify it or run a script that modifies the instance (i.e. upgrade installed SW) to create a MODIFIED ("GOLDEN") INSTANCE
+       4. Capture as a new AMI
+              *for EBS backed do this by creating a new image and AWS automatically registers it for you
+              *for Instanced-backed AMI, capture it by using EC2 AMI tools to create a bundle for the instance root volume
 
