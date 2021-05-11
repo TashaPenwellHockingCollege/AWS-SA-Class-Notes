@@ -34,4 +34,56 @@
         4. Community built AMIs (not vetted by AWS)
 
 
-*
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+# AWS Runtime Compute Choices
+  1.  Virtual Machines (VMs)                              
+       a. EC2                                                            
+       b. Lightsail                                                      
+  2.  Containers                                                          
+       a. Elastic Container Service (ECS)                              
+  3.  Platform as a Service (PaaS)
+       a.  Elastic Beanstalk
+  5.  Serverless
+       a.  Lambda
+       b.  Fargate
+  6.  Specialized Solutions
+       a.  AWS Outposts
+       b.  AWS Batch
+       
+       
+       
+# EC2
+   * Provides VM (servers)
+   * Provisions servers in minutes
+   * Auto scale capacity up/down as needed
+   * Enables you to pay only for capacity that you use
+   * VM that runs on a physical host
+   * You choose different configurations of CPU and memory capaicty
+   * Supports different storage options (Instance store or Elastic Block Store)
+   * Provides network connectivity
+
+
+# EC2 Use Cases
+  * When need complete control of computing resources from OS to processor type
+  * Options fro optimizing compute costs
+      1.  On-Demand instances, Reserved Instances and Spot Instances
+      2.  Savings Plan (commit to using specific capacity over long-term)
+  * Ability to run any type of workload
+     * Simple websites
+     * Enterprise Applications
+     * High performance applications
+
+
+
+ # Provisioning EC2 Instance
+       *Security group
+       *Key pair
+       *AMI
+       *Instance Type
+       *VPC
+       *Assumed role
+       *User data
+       *Instance store or Amazon EBS
+
