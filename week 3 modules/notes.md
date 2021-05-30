@@ -1,102 +1,48 @@
-# Choosing AMI to launch EC2 instance
-
-# Amazon Machine Image (AMI)
-  * provides the information that is needed to launch an instance
-      1. Template for the root volume
-          a. contains the guest OS and other installed SW
-      2. Launch permissions
-          a. controls which AWS accounts can access the AMI
-      3. Block device mappings
-          a. specifies any storage volumes to attach to the instance
-          
-  * Benefits
-      1.  Repeatability
-            * AMI can be used repeated to launch instances with efficiency and precision
-      2.  Reusability
-            * iNSTANCES LAUNCHED FROM SAME AMI are identically configured
-      3.  Recoverability
-            * can create an AMI from a configured instance as a restorable backup
-            * can replace a failed instanced by launching a new instance from same AMI
-
-  * Choosing an AMI
-      -Based on 5 things
-          1.  Region
-          2.  OS
-          3.  Storage type of the root device
-          4.  Architecture
-          5.  Virtualization Type (PV or HVM)
-
-
-  * 4 Sources to get started with AMIs
-        1. QuickStarts
-        2. Create own AMI from EC2 instances
-        3. AWS Marketplace
-        4. Community built AMIs (not vetted by AWS)
-
-
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-# AWS Runtime Compute Choices
-  1.  Virtual Machines (VMs)                              
-       a. EC2                                                            
-       b. Lightsail                                                      
-  2.  Containers                                                          
-       a. Elastic Container Service (ECS)                              
-  3.  Platform as a Service (PaaS)
-       a.  Elastic Beanstalk
-  5.  Serverless
-       a.  Lambda
-       b.  Fargate
-  6.  Specialized Solutions
-       a.  AWS Outposts
-       b.  AWS Batch
-       
-       
-       
-# EC2
-   * Provides VM (servers)
-   * Provisions servers in minutes
-   * Auto scale capacity up/down as needed
-   * Enables you to pay only for capacity that you use
-   * VM that runs on a physical host
-   * You choose different configurations of CPU and memory capaicty
-   * Supports different storage options (Instance store or Elastic Block Store)
-   * Provides network connectivity
-
-
-# EC2 Use Cases
-  * When need complete control of computing resources from OS to processor type
-  * Options fro optimizing compute costs
-      1.  On-Demand instances, Reserved Instances and Spot Instances
-      2.  Savings Plan (commit to using specific capacity over long-term)
-  * Ability to run any type of workload
-     * Simple websites
-     * Enterprise Applications
-     * High performance applications
-
-
-
- # Provisioning EC2 Instance
-       *Security group
-       *Key pair
-       *AMI
-       *Instance Type
-       *VPC
-       *Assumed role
-       *User data
-       *Instance store or Amazon EBS
-       
-       
-       
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-# Choosing an AMI to launch EC2 Instance
-    Steps:
-       1. Select your Starter AMI (Quick Start or other exising AMI)
-       2. Launch an EC2 instance from the AMI to create an UNMODIFIED INSTANCE
-       3. Connect to the instance adn manually modify it or run a script that modifies the instance (i.e. upgrade installed SW) to create a MODIFIED ("GOLDEN") INSTANCE
-       4. Capture as a new AMI
-              *for EBS backed do this by creating a new image and AWS automatically registers it for you
-              *for Instanced-backed AMI, capture it by using EC2 AMI tools to create a bundle for the instance root volume
-
+# Choosing AMI to Launch EC2 Instance
+ * AMI
+    provides information needed to launch an instance.  This includes
+       1.  Template for root volume
+             contains OS and other installed SW (applications, libraries, utilities, etc)
+       3.  Launch permissions
+             controls which AWS account can access the AMI
+             can also make it available to the public
+       5.  Block device mappings
+             spceifies any storage  volumes attached to the instance
+  * Benefits of using AMI
+    1.  Repeatability
+            an AMI can be used repeatedly to launch isntances w/ efficiency/precision
+            
+    3.  Reusability
+            instances launched from same AMI are identically configured
+    5.  Recoverability
+            create an AMI from a configured instance as a restorable backup
+            can replace a failed instance by launching new instance from same AMI
+            provide a way to backup a complete EC2 instance configuration which can use to launch a replacement instance if there's a failure 
+    * Choosing an AMI
+      Choice should be based on 5 key characteristics
+        1.  Region:  each AMI exists in a specific Region so will need to select an AMI that's in the Region where want instance to run; can copy an AMI from one Region to another
+        2.  OS:  MS or Linux
+        3.  Storage Type of root device:  all AMIs are categorized as either Amazon EBS-backed (persists independently of Instance's lifetime) or Instance store-backed (where data only exists during instance's lifetime)
+        4.  Architurecture:  select architectures that best fits workload; choices are 32-bit or 64-bit and either an X86 or Advanced RISC machine (ARM) instruction set
+        5.  Virtualization type:  AMIs use one of two types of virtualization; differences in between PV and HVM are in how they boot and whether can take advantage of special HW extensions for better performance
+             1.  Paravirtual (PV)
+             2.  Hardware Virtual Machine (HVM):  gives best performance
+    * Obtaining an AMI 
+        4 difference sources
+           1.  QuickStarts:  AMIs built by AWS; offer choice of Windows or Linux OS
+           2.  My AMIs:  any AMIs you create
+           3.  AWS Marketplace:  pre-configured templates from 3rd parties
+           4.  Community Built AMIs:  AMIs shared by others, use at own risk
+    * Instanced Store-Backed vs Amazon EBS-Backed AMI
+       AMAZON EBS-BACKED INSTANCE
+          * Boots faster
+          * 16 TiB is max size of root device
+          * Can stop the instance
+          * Can change the instance type by stopping the instance
+          * Charged for instance usabe EBS volume usage adn storing AMI as an EBS Snapshot
+       INSTANCE STORE-BACKED INSTANCE
+          * takes longer to boot; because all image parts to restore has be retrieved from S3
+          * 10 GiB is max size of root device
+          * Can't stop the instance, only reboot or terminate
+          * Can't change the instance type because instance can't be stopped
+          * Charged for instance usage and storing AMI in S3
