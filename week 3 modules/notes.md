@@ -114,4 +114,30 @@
             6.  Instance Store or Amazon EBS:  need to specify the type of storage used for storing the root volume of instance and any additional storage volume would like to have
             7. Security Group:  configure a new security group or use an exisitng one; defines which network ports traffic is allowed on
             8. Key Pair:  encryption key pair is usually also specified at launch; used for secure shell and remote desktop protocol connections to instances
+            
+
+## Choosing an AMI to launch an EC2 Instance
+    * can create an AMI from EC2 instance
+    Steps:
+        1.  start w/ source AMI (from any of the 4 sources).  launch an EC3 instance from the AMI.  At this point have an *unmodified instance
+        2.  Connect to the instnace and configure it w/ specific OS and application settings.  Results is referred to as *Golden Instance
+        3.  Capture as a new AMI; for an EBS-backed AMI you capture it by creating a new image and AWS auto registers it for you; for instanced backed AMI, you capture it by using EC2 AMI tools to create a bundle for the instance root volume then upload the bundle into an S3 bucket then you must manually register it.  After AMI is registered can use it to launch new instances in same AWS region.  Think of it as a new Starter AMI
+        4.  optional. copy new AMI to other Regions; lets you launch new EC2 instances in those locations using yoru AMI
+    * another way to create AMI is to use EC2 image builder
+    *EC2 Image Builder
+        automates creation, management and deployment of up-to-date and compliant Golden VM Images
+        *provides a GUI to create image-building pipelines
+        *creates/maintains EC2 AMIs and on-premises VM images
+        *Produces secure, validated and up-to-date images
+        *Enforces version control
+        *benefit is can create images w/ only the essential components
+        *reduce exposure to security vulnerabilities
+        *before use images in production, can use EC2 Image Builder to validate your images w/ tests provided by AWS or can use own tests
+    * How EC2 Image Builder Works
+        *Image Pipeline
+            Specified Source Image --> One or more added build components to customize SW installation and config --> one or mroe added hardening test (provided by AWS or custom) to verify security on the image --> Configured build schedule to specify how often the image pipeline will produce new images --> New Golden Image --> defined automated distribution details (specify to which AWS REgions to distribute the golden image)
+        
+        
+        
+
         
