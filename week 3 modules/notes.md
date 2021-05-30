@@ -136,7 +136,91 @@
     * How EC2 Image Builder Works
         *Image Pipeline
             Specified Source Image --> One or more added build components to customize SW installation and config --> one or mroe added hardening test (provided by AWS or custom) to verify security on the image --> Configured build schedule to specify how often the image pipeline will produce new images --> New Golden Image --> defined automated distribution details (specify to which AWS REgions to distribute the golden image)
-        
+
+
+## Selecting an EC2 Instance Type
+    * EC2 type defines configuration of CPU, memory storage and network performacne characteristics that proves a given level of compute performance
+    * Instance type you choose will depend on workload's performance and cost requirements
+    * names follow a standard convention; has multiple parts that describe the different characteristics
+        m5d.xlarge
+           m:  family
+           5:  generation; generally instances w/ higher generation numbers are more powerful and provide better value for the price 
+           d:  additional capabilities; optional part that indicates additional capabilities of the instance type; i.e. d indicates that the instance type uses a solid state drive (SSD) for the the root EBS volume instead of standard HDD
+           xlarge:  size; defines performance specs of an instance across categories for CPU, memory storage and network performance
+    * Instance types can be categorized as General Purpose, Compute optimized, Memory optimized, Accelerated computing or Storage optimized
+            1.  General Purposes Instances
+                provides a balance of compute, memory and networking resources
+                Web/app servers
+                Enterprise applications
+                Gaming servers
+                Cachinng fleets
+                Analytics applications
+                Development or test environments
+                Example instance types:  M5, T3, or A1 Instances
+            2.  Compute Optimized Instances
+                work well for compute-bound applications and benefit from high-performacne processors
+                batch processing
+                distributed analytics
+                high performance computing (HPC)
+                ad server engines
+                multiplayer gaming
+                video encoding
+                Example instance types:  C5, C5n Instances
+             3. Memory Optimized Instances
+                deliver fast performance for wkloads that process large data sets and memory
+                in-memory caches
+                High-performance databases
+                bid data analytics
+                Example instance types:  R5, X1, HMI
+             4. Accelerated Computing Instances
+                ML
+                AI
+                HPC
+                Grphics
+                Example instance types:  P3, G4, F1
+            5.  Storage Optimized instance types
+                designed for workloads that require high sequential read/write access to very large data sets on local storage
+                optimized to deliver tens of thousancds of low-latency random IOPS
+                high performance databases
+                real-time analytics
+                transactional workloads
+                noSQL databases
+                big data
+                data warehouse
+                log processing
+                Example isntances types:  I3, D2, H1 
+     
+  * Choosing an Instance Type
+        Choose instance type that meets
+            1.  Performance Needs of application
+            2.  Cost requirements
+
+        When create a new instance
+            1. Filter by the characteristics that you choose 
+                        - use the Instance Type page in the EC2 Console
+                           the page displays all the available instance types in a Region and provides search and filtering capabiliteis based on attribute values
+            3. the latest generation in an instance family typically has a better price-to-performance ratio
+            
+
+        if already have an existing instance
+            1.  get recommendations for optimziing the instance type from the AWS Compute Optimizer service to get recommendations on how to optizime the instance type
+            2.  evaluate recommendations and modify instance as recommended
+
+
+* AWS Compute Optimizer
+        AWS services that recommends optimial instance type, isntance size and auto scaling group config
+        analyzes workload patterns and makes recommendations
+        classifies instance findings as Under-provisioned, Over-provisiioned, Optimzied or None
+        analyzes the config and utilization
+        uses Amazon ML to analyze workloads
+        generates EC2 instance type and size recommendations
+        when activated, will analyze running AWS compute resrouces and deliver recommendations
+        classifes findings for EC2 instances as Under-provisioned, Over-provisioned, optimized or none
+            "None" can occure if Compute Optimizer has been enabled for less than 12 hours, when instance has been running for less than 30 hours or instnace type isn't supported by Compute Optimizer
+                
+                
+               
+    
         
         
 
