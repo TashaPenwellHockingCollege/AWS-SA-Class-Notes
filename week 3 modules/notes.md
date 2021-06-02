@@ -218,10 +218,57 @@
         classifes findings for EC2 instances as Under-provisioned, Over-provisioned, optimized or none
             "None" can occure if Compute Optimizer has been enabled for less than 12 hours, when instance has been running for less than 30 hours or instnace type isn't supported by Compute Optimizer
                 
-                
-               
+  ## Using User Data to Configure an EC2 Instance
+  
+  * When launching an EC2 instance have the option of passing user data into it     
+  * With user data can use a script to initialize and EC2 instance auto when it starts
+  		** i.e. use user data to patch or update SW that's already installed on the instance from the AMI; fetch and install SW license keys or install additional SW
+  * when launching an EC2 instance, specify user data to run an initializtion script (shell script or cloud-init directive)
+  * MS Windows uses EC2 Config or EC2Launch tools to process user data; this includes PowerShell Scripts
+  		** Windows 2016 or new uses EC2Launch
+		** Older version include EC2Config
+	* Retrieving Instance Metadata
+		-instance metadata is informatoin about your instance
+		-accessible from your instance URL
+		-can be retrieved from a user data script
+		-can find info like public IP address, private IP address, public hostname, isntance ID, security groups, Region, AZ, user data that was specified at launch time and more
+  * Configuring an EC2 Instance:  AMI vs User Data
+  		- need to make important architectural decisions
+  		- how much of instnace config should you pre-install in a base AMI?
+  		- how much should you dynamically build with user data at boot time?
+  		- Can build an AMI that contains all the configs for the instance (full baked AMI or full AMI)
+  				** includes everything to serve workload, including the OS, app runtime SW and app itself
+				** provisions a fully functional instance w/o additional boot-time config
+		- Can build an AMI that simply contains a minimal OS (Just Enough OS AMI or JeOS AMI)
+				** includes a config management agent that builds a fully functional system at instance launch
+				** on first boot, the config agent downloads, installs, configures and integrats all required SW
+		- Can also take a hybrid approach on building an AMI
+				** build an AMI that contains subset of config that workload needs
+					- i.e. an AMI can contain the OS and app runtime SW only or only the OS
+				** uses user data to complete the instance's config on first boot based on the app requirements
+		- Discovering ideal approach usually results from considering hte trade offs between simplicty and flexibility
+		- also need to consider boot times
+				** an AMI w/ OS only config will take a long time to boot when launch a new instance because users data will need to run
+				** packaging pre-reqs into a custom AMI shortens boot times
+		- also need to consider shelf life
+				** when install more pre-reqs on an AMI, run a greater risk that your app will be vulnerable to a security risk if underlying AMI isn't kept up to date
+				** assess the risk posed by updates to your dependencies
+	* Tradeoffs
+		- with a full AMI, the apps and all dependencies are pre-installed which shortens boot-times but increases AMI build times
+		- a full AMI usually has a shorter lifespan becasue updates to SW in it will need a rebuild
+		- with hybrid AMIs only pre-req SW and utilities are pre-installed which leads to a longer shelf life for the AMI
+		- Hybrid AMI provides a balance between boost speed and AMI build time; rollbacks become easier
+		- w/ an OS-only AMI, the approach is fully configurable and upgradable over time and shortens AMI build times but makes EC2 instances slow to boot becasue all required installations and config must be run at boot time
+	* Many organizations decide on a hybrid approach where some configs are baked into a custom base AMI and other settings are configured dyanmically at launch
+		- 
+				
+				** 		
+				
+				
+				
     
         
         
 
         
+
