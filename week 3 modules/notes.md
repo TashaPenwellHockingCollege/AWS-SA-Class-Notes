@@ -326,8 +326,95 @@
 				4.  Can be a boot volume
 	* EBS HDD-backed volume types
 		- EBS HDD-backed volumes work well when the focus is on throughput
+		* Throughput Optimized HDD (st1)
+			- Low-cost volume type
+			- Designed for frequently accessed, throughput-intensive workloads
+			-Use Cases
+				1.  Streamking workloads
+				2.  Big data
+				3.  Data warehouse
+				4.  Log processing
+				5.  It CANNOT be a boot volume
+		* Cold HDD (sc1)
+			- Lowest-cost HDD volume
+			- Designed for less frequently accessed workloads
+			- Use cases
+				1.  Throughput-oriented storage for large volumes of infrequently accessed data
+				2.  Use cases where the lowest storage cost is important
+				3.  It cannot be a boot volume
+
+	* EBS-Optimized Instances
+		- certain EC2 types can be EBS-optimized
+		- Benefits
+			1.  Provides a dedicated network connection to attached EBS volumes
+			2.  Increases I/0 performance
+			3.  Additional performance is achieved if using an Amaozn EC2 Nitro System-based instance type
+				* the Nitro System is a collection of AWS built HW and SW components that reduce virtualization overhead through high performance, high availability, high security and bare metal capabilities
+		- Usage
+			1.  For EBS-optimized instance types, optimization is enabled by default
+			2.  For other instance types that support it, optimization must be manually enabled
+		- for EBS-optimized instance types optimization is enabled by default
+		- for othe EC2 instnace types that support this, you must manually enable it when you launch the instance by setting the Amazon EBS-optimizaed attribute
+	* Shared File Systems for EC2 Instances
+		- What if you have multiple instances that must use the same storage?
+			-- EBS attached to only one instance
+			-- S3 is an option but not ideal
+			-- EFS (Linux) and FSx (Windows) for Windows File Server satisfy this requirement
+	* Amazon EFS
+		-provides a file system storage for Linux-based workloads
+		-fully managed elastic file system
+		-scales auto up or down as files are added and removed
+		-Petabytes of capacity
+		-Supports Network File System (NFS) protocols
+			-Mounts the file system to the EC2 instance
+		-Compatible w/ all Linux-based AMIs for EC2
+		- provides full file system features such as strong read after write cosnsitency and file locking
+		- Linux instances use NFS to connect to an EFS file system
+		- EFS can be used w/ any AMIs that support NFS
+		- multiple EC2 instances can acces an EFS file system at the same time
+			-- allows EFS to provide a commond data source for workloads and apps running one 1+ app system
+		- Use Cases
+			1.  Home directories
+			2.  File system and enterprise applications
+			3.  Application testing and development
+			4.  Databse backups
+			5.  Web serving and content management
+			6.  Media workflows
+			7.  Big data anlaytics
+	* to connect the EFS file syste to the guest OS of your instance must mount it
+
+* FSx for Windows File Server
+	- provides fully managed shared file system storage for Windows EC2 instances
+	- native Windows compatibility
+	- Net Technology File System (NTFS)
+	- Native Server Message Block (SMB) protocol version 2.0 to 3.1.1
+	- Distributed File System (DFS) Namespaces and DFS Replication
+		** DFS is a service that enables organiztion of multple distributed SMB file shares into a distributed file system
+	- integrates w/ MS Active Directory and suppors Windows access control lists (ACLs)
+	- Backed by high-performance SSD storage
+
+* FSx for Windows File Server Use Cases
+	- supports a broad set of MS workloads
+		** ie.
+			1.  Home directories
+			2.  Lift-and-shift app workloads
+			3.  Media and entertainment workflows
+			4.  Data analytics
+			5.  Web serving and content management
+			6.  SW development environments
+
+
+## Key Takeaways
+	1.  Storage options for EC2 instances include
+		1.  Instance Store
+		2.  EBS
+		3.  EFS
+		4.  FSx for Windows File Server
+	2.  for a root volume, use instnace store or SSD-backed EBS
+	3.  for a data volume that serves only one instance, use instance store or EBS storage
+	4.  for a data volume that serves multip Linux instance use EFS
+	5.  for a data volume that serves multiple Windows instances use FSx for Windows File Server
 		
-			
 		
 				 		
 				
