@@ -260,9 +260,76 @@
 		- Hybrid AMI provides a balance between boost speed and AMI build time; rollbacks become easier
 		- w/ an OS-only AMI, the approach is fully configurable and upgradable over time and shortens AMI build times but makes EC2 instances slow to boot becasue all required installations and config must be run at boot time
 	* Many organizations decide on a hybrid approach where some configs are baked into a custom base AMI and other settings are configured dyanmically at launch
-		- 
-				
-				** 		
+
+
+## Section 6:  Adding Storage to an Amazon EC2 Instance
+	* EC2 Instances have 4 main storage options
+		1.  Instance Store
+		2.  Amazon EBS
+		3.  Amazon Elastic File System (EFS)
+		4.  Amazon FSx for Windows File Server
+	* Can use any of these options to store a data volume
+	* only instance sotre or SSD-backed EBS volume can contain a root volume
+	* Instance store can only be used by the instance itself; think of it as the Hard Disk inside your computer
+	* EBS can be attached to once instanced at a time but you can detach and move to a different instance; it's like an external hard disk for your computer
+	* if want to share a data volume among multiple instances at same time can use Amazon EFS for Linux instances; use Amazon FSx for Windows File Serve rfor MS Windows instances
+	*Instance Store (ephemeral storage)
+		- An instance store provides non-persistent storage to an instance --> the data is stored on the same physical server where the instance runs
+		- Characteristics
+			1.  Temp block-level storage
+			2.  uses HDD or SSD
+			3.  Instance store data is lost when instance is stopped/terminated
+		- example use cases
+			1.  Buffers
+			2.  Cache
+			3.  Scratch data
+		- consists of 1+ volumes that are exposed to block devices
+		- the instance type determins the available sizes for an instance store and type of HW that you use for these instance store volumes
+		- most instance types support instances stores but not all do
+		- instances store backed instances cannot be stopped 
+			** can only be rebooted or terminated
+		- if instance reboots, data in the instance store persists
+		- if instances is terminated, you lose data in the instance store
+		
+	* Amazon EBS
+		- provides network-attached persistent storage to EC2 instance
+		-Characteristics
+			1.  persistent block-level storage
+			2.  can attach to any instance in the same AZ
+			3.  uses HDD or SSD
+			4.  can be encrypted
+			5.  supports snapshots that are persistent to S3
+			6.  Data persistent independtnly from instance and can be encrypted
+		- Example use cases
+			1.  Stand-alone database
+			2.  general application data storage
+	* EBS SSD-backed Volume Types
+		- EBS SSD-backed volumes are suited for use cases where the performance focuse is on IOPS
+		- General Purpose SSD (gp2)
+			* default EBS volume type for EC2 instances
+			* balances price and performance for a wide variety of worklads
+			* Use cases
+				1.  Recommended for most workloads
+					** Examples of transactional workloads suite for
+						1. development or test environments
+						2. low-latency interactive apps
+						3. boot volumes
+						
+				2.  can be a boot volume
+		- Provisioned IOPS SSD (io1)
+			* highest-performance SSD volume
+			* good for mission-critical, low-latency or high-throughput workloads
+			* Use cases
+				1.  Critical business apps that require sustained IOPS performance
+				2.  Large db workloads
+				3.  Transactional workloads
+				4.  Can be a boot volume
+	* EBS HDD-backed volume types
+		- EBS HDD-backed volumes work well when the focus is on throughput
+		
+			
+		
+				 		
 				
 				
 				
