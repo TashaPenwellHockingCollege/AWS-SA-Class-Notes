@@ -414,6 +414,71 @@
 	3.  for a data volume that serves only one instance, use instance store or EBS storage
 	4.  for a data volume that serves multip Linux instance use EFS
 	5.  for a data volume that serves multiple Windows instances use FSx for Windows File Server
+	
+	
+## Section 7:  Amazon EC2 Pricing Options
+	* 5 ways to pay for EC2
+		1.  On-Demand Instances
+			* Pay for compute capacity by the second or by the hour 
+			* No longer-term commitments
+			* for spiky workloads or workload experimentation
+		2.  Reserved Instances
+			* Make a 1 year or 3 year commitment and receive a significant discount off on-demand prices
+			* for committed and steady-state workloads
+		3.  Savings Plan
+			* Same discounts as Reserved Instances with more flexibility in exchange for a $/hour commitment
+			*All EC2, Fargate and Lambda workloads
+			*flexibile pricing model
+		4.  Spot Instances
+			* spare EC2 capacity at substantial savings off on-deamnd instance prices
+			* for fault-tolerant, flexibile, stateless workloads
+			* must be able to be stopped and started
+			* Amazon can interrupt Spot Instance w/ a 2 minute notification
+			* runs when capacity is available and the maximum price per hour for request exceeds the spot price
+			* if running on Linux or Ubunto OS they're built in 1 second increments w/ a minimum of 60 seconds
+			* all other OS are built in one hour increments rounded up to the nearest hour
+			* SPOT BLOCKS:  variation of Spot Instances let you run a workload continuously for a finite duration of one to six hours; are not interrupted; will run for the duration selected, independent of the spot instance market price
+		5.  Dedicated Hosts
+			* physical server w/ EC2 instance capacity fully dedicated for your use
+			* for workloads that require use of own SW licenses or single tenancy to meet compliance requirements
+
+	EC2 Dedicated Options
+		- EC2 dedicated options provide EC2 instance capacity on physical servers that are dedicated for your use (single-tenant HW)
+		- DEDICATED INSTANCES
+			*per instance billing
+			*auto instance placement
+			*Benefit:  isolates the hosts that run your instances
+		- DEDICATED HOSTS
+			* for host billing
+			* visibility of sockets, cores and host ID
+			* affinity between host and instance
+			* targeted instance placement
+			* add capacity by using an allocaiton request
+			* Benefit:  enables you to use your server bound SW licens and address compliance requirements
+	EC2 Cost Optimization Guidelines
+		- to optimize the cost of EC2 instances, combine the available purchase options
+			* use RI or Savings Plans for known, steady-state workloads
+			* use On-Demand Instances for new or stateful spiky workloads
+			* scale using Spot Instances for fault-tolerant, flexibile, stateless workloads
+	KEY TAKEAWAYS
+		-EC2 Pricing Models include On-Demand Instances, RI, Savings, Plans, Spot Instances, and Dedicated Hosts
+		-Per-second billing is avail oly for On-Demand Instnaces, RI and Spot Instances that run on Linux or Ubunto OS
+		-Use a combo of RI, Savings Plans, On-Demand Instances and Spot Instances to optimized EC2 compute costs
+		
+
+## EC2 Considerations
+	PLACEMENT GROUPS
+		* enable you to control where instances run in an AZ
+		* they influence where a group of interdependent instances run -
+			- increase network performance between them
+			-reduce correlated or simultaneous failure
+	PLACEMENT STRATEGIES
+		*Cluster
+		*Paritition
+		*spread
+	LIMITATIONS
+		*an instances can be launched in only on placement group at a time
+		*instances w/ a tenancy of host cannot be launed in a placement group
 		
 		
 				 		
