@@ -474,11 +474,40 @@
 			-reduce correlated or simultaneous failure
 	PLACEMENT STRATEGIES
 		*Cluster
+			-packs instances close together inside an AZ
+			-helps workloads achieve low latency network performanc	
 		*Paritition
-		*spread
+			-spreads instances across logical partitions
+			-groups of instances in one partition don't share the underlying HW w/ group of instances in another partition		
+		*Spread
+			- strictly places a small group of instances across different underlying HW to reduce correlated failures
 	LIMITATIONS
 		*an instances can be launched in only on placement group at a time
+		*instances launched on a dedicated host can't be launched in a placement group
 		*instances w/ a tenancy of host cannot be launed in a placement group
+	CLUSTER PLACEMENT GROUP
+		*provides low-latency and high packet-per-second network performance between instances in the same AZ
+		*instances are placed in the same high-bisection bandwidth segment of the network
+		*provides per-flow throughput limit of up to 10 Gbps for TCP/IP traffic
+		*Recommend for app that benefit from low network latency, high network throughput or both
+		*Best Practice - Launch all instances in a single request; if try to add more instances to group laters increase chances of receiving an insufficient capacity error
+	PARTITION PLACEMENT GROUP
+		*partitions (groups divided into logical segments by EC2) placement group spreads instances across logical parittion to reduce likelihood of correlated HW failure
+		*each partition has its own set of racks (network and power source)
+		*each rack has its own network and power source
+		*paritions can be in multiple AZ
+		*recommended use for large distributed and replicated workloads like Apache Hadoop, Apache HBase, and Apache Cassandra
+		*can have paritions in multiple AZ in the same region
+		*can have a max of 7 partitions per AZ
+		*the instances in a partition don't share ranks w/ the instances in other paritions so can limit impaced of single HW failure to only the associated partition
+	SPREAD PLACEMENT GROUP
+		* place instances across distinct physical racks to reduce correlated HW failure
+		* each rack has its own network and power source
+		* Groups can span multiple AZ
+		* Recommended use for apps that have a small number of critical instances that should be kept separate from each other
+		*can span multiple AZ up to 7 instances per AZ per group
+		
+		
 		
 		
 				 		
