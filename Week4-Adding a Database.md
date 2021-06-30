@@ -142,6 +142,54 @@
     3.  DynamoDB global tables ensures that data is replicated to multiple Regions
     4.  DynamoDB provides eventual consistency by default (usually fully consistent for reads 1 second after the write)
     5.  Strong consistency is optional for DynamoDB but can have some drawbacks.
+    
+
+# Securing Amazon RDS Databases
+    -Recommendations
+        1.  Run the RDS instances in a VPC (provides service isolation and IP firewall protections)
+                - Configure VPC endpoints
+                    1.  Prevents connections traffic from traversing the open internet
+                    2.  VPC endpoint policies allows you to control and limite API access to a DynamoDB tables
+        2.  Use IAM policies for authentication and access (permissions determin who is allowed to manage RDS resources)
+                - use IAM roles to authenicate acess
+                - use IAM policies to
+                        1.  define fine-grain access permissions to use DynamoDB APIs
+                        2.  define access at the table, item or attribute level
+                        3.  Follow the principle of granting least privilege
+        3.  Use security groups to control what IP addresses or EC2 instances can connect to your db (by default, network access is disabled)
+        4.  Use Secure Sockets Layer (SSL) for encryption in transit
+        5.  Use Amazon RDS encryption on DB instances and snapshots ot secure data at rest
+        6.  Consider client-side encryption
+                -encrypt data as close as possible to its origin
+   -Security Provided by Default
+        1.  Encryption at Rest of all user data stored in tables, indexes, streams and backups
+        2.  Encryption in transit - All communications to and from DynamoDB and other AWS Resources use HTTPS
+        6.  Use security features of your DB engine to control who can log in ot the databases on a DB instance
+        7.  Configure event notifications to alert you when important RDS events occur
+        
+# AWS Database Migration Service
+    -aka AWS DMS
+    -used to migrate to and from most commercial and open source db
+    -Migrate between db on EC2, RDS, S3, and on-premises
+    -support Homogenous Migrations which are migrations between db that use the same engine
+    -supports heterogenous migrations which are migrations between db that use different engines
+    - Key Features of AWS DMS
+        1.  Can be used to do one-time migrations or for continuous data replication between 2 db
+        2.  AWS Schema Conversion Tool (AWS SCT) supports changing the db engine between source and target
+        3.  Typical migration steps
+            1.  Create a target db
+            2.  Migrate the db schema
+            3.  Set up the data replication process
+            4.  Initiate the data  transfer and confirm completion
+            5.  Switch production ot the new db (for one-time migrations)
+    -Using Snowball Edge w/ AWS DMS
+        * when migrating data is not practical
+            1.  DB is too large
+            2.  Connection is too slow
+            3.  Privacy/security concerns
+        * use AWS Snowball Edge for a multi-terabyte transfer w/o using the Internet
+        
+        
                    
             
         
