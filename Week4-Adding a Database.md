@@ -102,7 +102,29 @@
                 2.  Loss of network connectivity to primary
                 3.  Compute unit failure on primary
                 4.  Storage failure on primary
-        -R
+
+
+# Amazon DynamoDB
+        - fully managed non-relational key-value and document database service
+        - Benefits
+              1.  Performance at any scale
+              2.  Serverless
+              3.  Enterprise-ready
+        - Works well for applications that
+              1.  Have simple high-volume data (high-TB range)
+              2.  Must scale quickly
+              3.  Don't need complex joins
+              4.  Require ultra-high throughput and low latency
+        - Key Features
+              1.  NoSQL tables
+              2.  Items can have differing attributes
+              3.  In-memory caching
+              4.  Support for peaks of more than 20 millions requests per second
+        - By default Amazon DynamoDB replicates your data across multiple AZ in a single region.
+        - DynamoDB global tables provides a fully managed solution for deploying a multi-Region, multi-master db
+            - Don't need to build and maintain own replications solutions.  When create a global table, specify the AWS Regions where want the table to be available.  DynamoDB performs all necessary tasks to create identical tables in these regions
+            - DynamoDB propagtes ongoing data changes to all the tables
+        
                    
             
         
