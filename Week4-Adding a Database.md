@@ -124,7 +124,24 @@
         - DynamoDB global tables provides a fully managed solution for deploying a multi-Region, multi-master db
             - Don't need to build and maintain own replications solutions.  When create a global table, specify the AWS Regions where want the table to be available.  DynamoDB performs all necessary tasks to create identical tables in these regions
             - DynamoDB propagtes ongoing data changes to all the tables
+        - DynamoDB Consistency Options
+            1.  Eventually Consistent
+                * default setting
+                * all copies of data usually reach consistency w/in 1 second
+            2.  Strongly Consistent
+                * optional feature
+                * used for apps that require all reads to return a result that reflects all writes before the read
+                * Disadvantages:  
+                    a. may not be available if there is an outage or network delay because must wait for all write ops to complete which can take longer than an eventually consistent read
+                    b. consume more resources
+            -can specify the read consistency you want for each read request
         
+# Section 4 Takeaways
+    1.  DynamoDB is a fully managed non-relational key-value and document NoSQL db service
+    2.  DynamoDB is serverless, provides extreme horizontal scaling and low latency
+    3.  DynamoDB global tables ensures that data is replicated to multiple Regions
+    4.  DynamoDB provides eventual consistency by default (usually fully consistent for reads 1 second after the write)
+    5.  Strong consistency is optional for DynamoDB but can have some drawbacks.
                    
             
         
