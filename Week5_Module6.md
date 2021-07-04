@@ -68,3 +68,70 @@
   3.  a subnet belongs to one AZ or Local Zone.  It is a subnet of the VPC CIDR block
   4.  You can create multiple VPCs in the same Region or in different Regions and in the same account or different accounts
   5.  Follw best practices when you design your VPC
+
+
+ # Creating a public subnet
+  * Internet Gateway
+           - allows communication between resources in your VPC and the Internet
+           - horizontally scaled, redundant, and highly available by default
+           - provides a targe in yoru subnet route tables for internet-routable traffic
+           - supports IPv4 adn IPv6 traffic
+           - Serves 2 purposes
+                  1.  provides a target in your VPC route tables for Internet-bound traffic
+                  2.  for instances assigned public IPv4 addresses, the IGW performs network address translation (NAT)
+            -to make a subnet public, must first create an IGW and attach to VPC
+   * Directing Traffic Between VPC Resources
+           - route tables are required to direct traffic between VPC resources
+           - each VPC has a main (default) route table 
+                        * created automatically when you create the VPC
+                        * at first every route table (including the main one) contains only a single local route
+                        * the local route enables communications for all the resources in the VPC
+                        * cannot modify local route in a route table
+                        * when launch an instances in the VPC the local route auto covers that instance
+                        * don't need to add the new instance to a route table
+                        * can create additional custom route tables for your VPC
+           - all subnets must be associated w/ a route table
+                        * if don't explicitly assocate a subnet with a custom route table the subnet is implicity associated w/ the main route table
+                        * a subnet can be associated w/ only one route table at a time
+                        * multiple subnets can use the same route table
+           - you can create custom route tables
+            - Best Practice:  use custom route tables for each subnet to allow granular routing destination
+
+# Remapping an IP address from one instance to another
+      * Elastic IP Addresses
+            - are static, public IPv4 addresses associated w/ yoru AWSaccount
+            - can be associated w/ an instance or elastic network interface
+            - can be remapped to another instnaces in your account (this allows consistent availability)
+            - are useful for redundance when load balances are not an option
+            - associating the Elastic IP address w/ a network interface has an advantage over associating it directly w/ the instance
+                  ** can move all the attributes of the network interface from one instance to another in a single step
+
+
+# Connecting Private Sunets to the Internet
+      * NAT Gateways
+            - enable instances in a private subnet to initiate outbound traffic to the internet or other AWS services
+            - provents private instances from receiving inbound connection request from the internet
+      * Creating  a NAT Gateway
+            1.  Specify the public subnets tha twant to create it; in the public route table, the IGW is specified as the target for internet-bound traffic
+            2.  Specify an Elastic IP address to associate w/ the NAT gateway
+            3.  Update the private route table that is associated /w one or more of yoru private subnets so it points internet-bound traffic to the NAT Gateway
+                  -NOTE: in the private route table, the NAT gateway ID is specified as the target for internet-bound traffic
+            4.  Instances in private subnets will now be able to communicate w/ the Internet
+      * AWS Recoomendation:  put web app instances inside a private subnet behind a load balancers that's placed in a public subnet
+            * in some environments, need to attach web app instances to Elastic IP addresses directly; 
+            * can also attach an Elastic IP address to a load balancer but in those cases the web app instances must be in a public subnet
+            
+ # Bastion Hosts
+      * a server whos purposes is to provide access to a private network from an external network
+      * must minimize the chances of penetration
+      * usually runs on EC2 isntances in public subnet of your VPC
+      * bastion host users connct to the bastion host to connect to the private subnet of instances
+            
+# Key Takeways
+      1.  an IGW allows communciations between instances in your VPC and the Internet
+      2.  Route tables control tgraffic from your subnet or gateways
+      3.  Elastic IP addresses are static, public IPv4 addresses that can be associated w/ an instances or Elastic network interface.  They can be remapped to anothe rinstances in your account
+      4.  NAT gateways enable instances in the private subnet to initiate outbound traffic to the internet or othe AWS services
+      5.  A bastion host is a server whose purpose is to provide access to a private network from an external network such as the internet
+                  
+            
