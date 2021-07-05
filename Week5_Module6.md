@@ -134,4 +134,79 @@
       4.  NAT gateways enable instances in the private subnet to initiate outbound traffic to the internet or othe AWS services
       5.  A bastion host is a server whose purpose is to provide access to a private network from an external network such as the internet
                   
+
+# SECURING YORU AWS NETWORKING ENVIRONMENT
+      * Security Groups
+            - are stateful firewalls that control inbound and outbound traffic to AWS resources
+                  * divide instances and network interfaces into groups
+                  * security group rules control inbound and outbound traffic to group members so configure the rules to restrict traffic and allow access only as needed
+                  * traffic can be restricted by any IP, service port and sources or destination IP address
+                  * stateful means that state info is kept even after a request is processed so if you send a request from your instances the response traffic for that request is allowed to flow in regardless of inbound security group rules
+                  * responses to allowed inbound traffic are allowed to flow out regardless of outbound rules
+            - act at the level of the instance or network interface
+      * Default Security Groups
+                  * when you create a security group, it has no inbound rules so you must add inbound rules to the security group
+                  * these rules allow inbound traffic that originates from another host to reach your instance
+                  * be default, a newly created security group includes an outbound rule that allows all outbound traffic
+                  * you can remove the rule and add outbound rules that allow specific outbound traffic only
+                  * if there are no outbound rules then no outbound traffic is allowed
+      * Custom Security Group
+            * when creating sec group can specify allow rules but not deny rules
+      * Chaining Security Groups
+                  * sec groups act as firewalls
+                  * Three different tiers
+                              1.  INBOUND RULES => Web Tier Security Group
+                                    - Allow:  HTTP (port 80) or HTTPS (port 442)
+                                    - Source: 0.0.0.0/0 (any)
+                                    - Allow: SSH (port 22) to Web tier
+                                    - Source:  Corporate IP range
+                              2.  INBOUND RULE => Application Tier Security Group
+                                    - Allow:  SSH (port 22) to Application Tier
+                                    - Source:  Corporate IP Range
+                              3.  INBOUND RULE => Database tier security group
+                                    - Allow:  SSH (port 22) to DB tier
+                                    - Source:  Corporate IP Range
+                                          
+                        All other ports are blocked by default
+                  * can be configured to set different rules for different classes of instances
+      * Network Access Control Lists (Network ACLs0
+                  * act at the subnet level
+                  * allow all inbound and outbound traffic by default
+                        - can setup network ACL w/ rules similiar to sec group
+                        - by default, allows all inbound and outbound IPv4 traffic and (if it applies) IPv6 traffic
+                  * are stateless firewalls that require explicit rules for both inbound and outbound traffic
+                        - no info about a request is maintained after a request is processed
+                        - return traffic must be explicity allowed by rules
+                  * optional layer of security for the VPC
+                  * controls traffic going into and out of one or more subnets
+                        - your VPC auto comes w/ a modifiable default network ACL
+                        - has separate inbound and outbound rules
+                        - each rule can allow/deny traffic
+                  * each subnet in VPC must be associated w/ a network ACL and can be associated w/ only one network ACL at a time
+                        - however, can associate a network ACL w/ multiple subnets
+                  * when associate a network ACL w/ a subnet, it removes the subnets' previous association
+
+      * Custom Network ACLs
+            * Recommended for specific network security requirements only
+            * be default denies all inbount and outbound traffic until add rules
+      * Structure your Infra w/ Multiple Layers of Defense
+            * best practice is secure infra w/ multiple layers of defense
+            * by running infra in VPC can control which instances are exposed to the Internet
+            * can protect infra at diff levels
+                  - define sec groups to provide protection at the infra level
+                  - define network ACLs to further protect infra at the subnet level
+                  - secure instances w/ a firewall at OS level
+                  - follow other sec best practices
+      * Review:  How to Create a Public Subnet
+            * to create a public subnet to allow communication between instances in VPC and Internet must
+                  1.  Attach an IGW to your VPC
+                  2.  Point your instance subnet's route table to the IGW
+                  3.  Make sure that instances have public IP or Elastic IP addresses
+                  4.  Make sure that your security gruops and network ACLs allows relevant traffic to flow
+
+# Key Takeaways
+      * Security groups are stateful firewalls that act at the instance level
+      * Network ACLs are stateless firewalls that act at the subnet level
+      * when set inbound and outbound rules to allow traffic to flow from the top tier to the bottom tier of your architecte, you can chain security groups teogether to isolate a security breach
+      * you should structure your infra w/ multiple layers of defense
             
