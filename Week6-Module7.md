@@ -68,3 +68,9 @@
 2. You can acess any VPC or public AWS service in an Region (except China) from you supported DX location
 3. You can implement highly available connectivity between your data centers and your VPC by coupling one or more DX connections that you use for primary connectivity w/ a lower-cost, backup VPN connection
 4. To implement a highly resilient, fault-tolerant architecutre, connect to your AWS network form multiple data centers so you can have physical location redundancy
+
+
+## Connecting VPCs in AWS with VPC Peering
+# Connecting VPCs
+ * isolating some workloads is generally a good practice
+ * may need to transfer data between two or more VPCs
