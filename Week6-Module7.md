@@ -74,3 +74,51 @@
 # Connecting VPCs
  * isolating some workloads is generally a good practice
  * may need to transfer data between two or more VPCs
+ * common example of having multiple VPC environments is having one for Development, Test, and Production
+
+
+# VPC Peering
+ * One to One networking connections between 2 VPCs
+    ** lets you route traffic between the VPCs privately
+    ** Instances in either VPC can communicate w/ each other like they are in the same network
+    ** can create a VPC peering connection between own VPCs, w/ a VPC in another AWS account or w/ a VPC in a different AWS Region
+    ** inter-region VPC peering provides simple and cost-effective way to share resources between Regions or replicate data for geographic redundancy
+ * no gateways, VPN connections adn separate network applicances needed
+    ** w/ inter-Region VPC peering cloud resources communciate w/ each other using private IP addresses w/o requiring gateways, VPN connections or separate network applicainces
+    ** traffic remains in the private IP address space
+ * Highly available connections
+ * No single point of failure or bandwidth bottleneck
+    ** all inter-Region traffic is encrypted w/ no single point of failure or bandwidth bottleneck
+ * Traffic always stays on the global AWS backbone; never goes across public internet
+    ** reduces threats such as DDOS
+ * Standard inter-region data transfer rates are charged for inter-Region VPC peering connections
+
+# Establishing VPC Peering
+ * frist VPC owner sends request to second VPCs owner
+ * Second VPC owners must accpet peer request
+ * to enable a flow of traffic between the VPC peers through private IP addresses, each owner must add a route to one or more route tables
+ * route must point to the IP address range of the peer
+ * may also need to update security group rules so traffice to and from VPC isn't restricted
+
+# VPC Peering Connection Restrictions
+ * use private IP addresses
+ * can be established between diff AWS accounts
+ * Cannot have overlapping CIDR blocks
+ * can have only one peering resources between any two VPCs
+ * do not support transitive peering (i.e. Development VPC cannot connect to Production VPC, has to be connected via Test VCP)
+
+
+# CONSIDERATIONS FOR PEERING MULTIPLE VPCs
+ * when connecting multiple VPCs, consider these network design principles
+     1.  Only connect essential VPCs
+     2.  Make sure yoru solution can scale
+
+# KEY TAKEAWAYS
+  1.  VPC Peering is a one to one networking connection between 2 VPCs that enables you to route traffice between them privately
+  2.  You can establish peering relationships between VPCs across different AWS Regions
+  3.  VPC Peering Connections
+      * use private IP addresses
+      * can be established between different AWS accounts
+      * Cannot have overlapping CIDR blocks
+      * can have only one peering resource between any two VPCs
+      * do not supprot transitive peering relationships
