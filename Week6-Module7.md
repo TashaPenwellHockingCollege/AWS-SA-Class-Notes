@@ -173,3 +173,51 @@
 # KEY TAKEAWAYS
   * AWS Transit Gateway enables you to connect VPCs and on-premise networks to a single gateway (the transit gateway)
   * TGW uses a hub-and-spoke model to simplify VPC maangement and reduce op costs
+
+
+# VPC Endpoints
+ * enable you to privately conenct VPC to supported AWS services and to VPC endpoint services that are pwered by AWS PrivateLink
+ * enable traffic between your VPC and other service w/o leaving the Amazon network
+ * do not require an IGW, VPN, network address translator (NAT) device or firewall proxies
+    ** instances in VPC don't need public IP addresses to communicate w/ resources in the service
+ * are horizontally scaled, redundant, and highly available
+ * over 40 AWS services are supported 
+       ** Amazon CloudWatch
+       ** AWS CodeBuild
+       ** Amazon EC2
+       ** Amazon EC2 Auto Scaling
+       ** AWS Elastic Beanstalk
+ * can also connect VPC to VPC endpoint services powered by AWS PrivateLink which included some AWS services, supported AWS marketplace services, services hosted by other AWS customers and APN partners and their own VPCs 
+ * Endpoint services are virtual devices
+      ** horizontally scaled, redundance and highly available VPC components
+      ** allow communication between instances in VPC and services w/o imposing availability risks or bandwidth constraints on network traffic
+      
+# Two Types of VPC Endpoints
+ 1. Interface Endpoint
+    ** elastic network interface w/ a private IP address that serves as an entry point for traffic destined to a supported service
+    ** powered by AWS PrivateLink
+    ** Service Owners is the Service Provider; Service Consumer is the Creator of the Interface Endpoint
+    ** examples:  Amazon CloudWatch, EC2 API, Elastic Load Balancing
+    
+ 2.  Gateway Endpoint
+    ** gateway that you specify as a target for a route in your route table for traffic destined to a supported AWS service
+    ** supported AWS services:  S3, DynamoDB
+    ** doesn't have processing or hourly charges but billed for each hour VPC endpoint remains provisioned in each AZ and stops when you delete it or if endpoint service owner rejects your VPC endpoint's attachment to their service and service is deleted
+
+# How to Set up Interface Endpoint
+ 1.  Specify the AWS service, endpoint service, or AWS Marketplace service you want to connect to
+ 2.  Choose the VPC where you want to create the interface endpoint
+ 3.  Chosoe a subnet in your VPC that will use the interface endpoint.  You can specify more than one subnet in different AZ (as supported byt the service)
+     ** when create an interface endpont for a service in VPC an endpoint network interface is created in the selected subnet
+     ** the endpoint network interface has a private IP address that serves as an entry pont for traffic destined to the service
+ 5.  Optional:  enabled DNS for the endpoing
+ 6.  Specify the security group to associate w/ network interface
+     ** services can't initiate request of resources in your VPC through an endpoint
+     ** an endpoint only returns responses to traffic that are initiated from resources in your VPC
+
+# KEY TAKEWAWAYS
+ * a VPC Endpoint enables you to privately connect your VPC to supported AWS services and VPC endpont services powered by AWS PrivateLink
+ * VPC endpoints do not require an IGW, NAT devices, VPN connection or AWS DX connections
+ * There are 2 types of VPC endpoints.  Interface endpoints and Gateway endpoints
+
+    
