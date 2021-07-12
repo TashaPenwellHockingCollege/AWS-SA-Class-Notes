@@ -122,3 +122,54 @@
       * Cannot have overlapping CIDR blocks
       * can have only one peering resource between any two VPCs
       * do not supprot transitive peering relationships
+
+
+# NEED TO SCALE NETWORKS ACROSS MULTIPLE VPCs
+ * can use VPC peering to connect pairs of VPCs
+ * Point-to-Point works well for smaller configurations
+ * can be costly and difficult to manage across many VPCs
+ * for on-premises connectivity, need to attached VPC to each individual VPC which can be time-consuming and difficult to manage when number of VPCs grow into hundreds
+ * important to consider how large environment may be come over time and how well it will scale and how to organize VPCs
+ * to manage larger scale config can use AWS Transit Gateway to simplify networking model
+
+
+# AWS Transit Gateway
+ * service that enables you to connect VPCs and on-premeises network to a single gateways
+    ** only need to managed a single connection from the central gateway into each VPC, on-premise data centers or remote office across your network
+ * full managed, highly availa, flexible routing service
+ * acts as a hub for all traffic to flow through between your networks
+    ** uses a hub-and-spoke model
+    ** model that simplifices management and reduces operatonal costs
+    ** each network only needs to connect to the transit gateway and not to every other network
+ * connects up to 5,000 VPCs and on-premise environments w/ a single gateway
+    ** any new VPC is connected via Transit Gateway
+ * through the connection, the new VPC can reach every other connected network
+    ** makes it easier to scale network and grow
+    
+# CONNECTING MULTIPLE VPCs
+ * ScenariO:  want to connect 3 VPCs in network; have 3 VPCs with IP address ranging from 10.x.0.0/16 (x = 1, 2, 3)
+ * Step 1:  Create the Transit Gateway (tgw-xxx) to built a transit hub to connect VPCs and on-premise networks.  Acts as a Regional virtual route for traffic that flows between VPC and VPN connections. 
+     ** scales elastically based on volume of network traffic
+     ** set up TGW via Amazon VPC dashboard
+     ** various charges apply for using TGW so be sure architecutre and budget support TGW
+     ** Connects to VPC through elastic network interfaces which are deployed into subnets
+ * Step 2:  ensure that every AZ that's part of the VPC has a network interface connecting the VPC to the transit gatway
+    ** can be done by selecting at least one subnet from each AZ for the network interface
+ * Step 3:  Add another route to send traffic that's destined for other VPCs in the network to the transit gateway
+ * Step 4:  Configure the TGW route table so it routes traffic to connected VPCs
+    ** when create a TGW a TGW route table is also created; each route in the table enables the TGW to sned traffic destined for one VPC by using a corresponding attachment
+    ** the attachments is a reference to the network itnerfaces attached to VPC itself
+    
+ * TGW can also be used to to isolate VPC environment
+    ** when want to connect VPN source to VPN environment
+    ** want to prevent VPCs from directly connecting to each other
+    ** setting up the route table appropriately for the TGW will help prevent the VPCs from sharing info between them
+      *** update the route in TGW route table to send all known traffic to the VPN connection; TGW forwards traffic to the VPN; TGW won't send traffic to any of the other VPCs becasue no routes point to any of the VPC attachments
+      *** have now isolated and secured VPN access to VPC environment and don't have any cross communication between the VPCs
+      
+ * can create multiple TGW route tables for specific interactions to direct traffic as you see fit
+      *** i.e. a secound route table directs inbound traffic from VPN to a VPC that's attached to the TGW
+      
+# KEY TAKEAWAYS
+  * AWS Transit Gateway enables you to connect VPCs and on-premise networks to a single gateway (the transit gateway)
+  * TGW uses a hub-and-spoke model to simplify VPC maangement and reduce op costs
