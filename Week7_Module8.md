@@ -69,4 +69,29 @@
             "Action": "s3:*"
             "Action": "iam:*AccessKey*"
 
-      - 
+  
+  
+#  AWS CloudTrail
+   * Logs and monitors user activity
+         ** enables governance, compliance and auditing of AWS account
+         ** enables you to track and automatically respons to account activity that threatens security of AWS resources
+         ** can continuously monitor user activity on your AWS infrastructure
+   * Provides event history of AWS account
+        ** Actions taken through the AWS Mangement Console, SDK, CLI
+        ** Increases visibility into your user and resource activity
+        ** 90-day event history provided by default at no cost
+   * Identify
+         1.  Who accessed your account
+         2.  When and from where
+         3.  What action they took on an AWS service
+   *  Helpful tool to
+         1.  Perform security analysis
+         2.  Discover which calls were block (for example, IAM policies
+
+
+## Key Takeways
+   * Don't use the account root user for common tasks.  Instead, create and use IAM user credentials
+   * Permissions for accessing AWS account resources are defined in one or more IAM policy documents
+         ** Attached IAM policies to IAM users, groups or roles
+   * When IAM determines permission, an explicity Deny will always override any Allow statement
+   * It is best pract to follow the principle of least privilege when granting access
