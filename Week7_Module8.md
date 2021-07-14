@@ -95,3 +95,19 @@
          ** Attached IAM policies to IAM users, groups or roles
    * When IAM determines permission, an explicity Deny will always override any Allow statement
    * It is best pract to follow the principle of least privilege when granting access
+
+
+## IAM Groups
+   * Use IAM groups to grant the same access rights to multiple users
+   * All users in the group inherit the permissions assigned to the group.
+         ** makes it easier to manage access across multiple users
+   * Combine approachs for fine-grained individual access
+         ** Add the user to a group to apply standard access based on job function
+         ** optionally attach an additional policy to the user for needed exeptions
+         
+## Example IAM Groups
+   * Create groups that reflect job functions
+      ** if a new developer is hired, add them to the Developer group
+         *** immediately inherit the same access granted to other developers
+   * users can below to more than one group; if one group has more lenient policies than another for a user, the access rights for the most restrictive policy applies
+      
