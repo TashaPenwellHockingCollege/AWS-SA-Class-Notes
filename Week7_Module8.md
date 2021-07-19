@@ -293,6 +293,62 @@
    3.  You can configure access controls accross accounts by using service control policies (SCPs)
 
 
+# Knowledge Check
+
+1.  Which statement describes AWS IAM users?
+A.  Every IAM users name is unique across all AWS accounts
+
+2.  How can you grant the same level of permissions to multiple users w/in an account?
+A.  
+
+3.  Which statements describes IAM roles?
+A.  
+
+4.  which statement describe a resources-based policy?
+A.  
+
+
+5.  How does AWS IAM evaluate a policy?
+A.  It checks for explicit deny statements before it checks for explicity allow statements.
+
+
+6.  A team of developers needs access to several services and ersources in VPC for 9 months.  How can you use AWS IAM to enable access for them?
+A.  Create an IAM users for each developer, put them all in an IAM group adn attach the required IAM policies to the IAM group
+
+7.  How does identity federation incrase security for an application htat is built on AWS?
+A.  Users can use SSO to access the application through an existing authenicated identity
+
+8.  Which services can you use to enable identity federation for your applications that are built in AWS?
+A.  
+
+
+9.  What service helps you centrally manage billing; control access, compliance and security; and share resources across multiple AWS accounts?
+A.  AWS Organizations
+
+10.  A tech company's employees log in to their AWS accounts through AWS IAM users.  They have admin access and access to the root users.  Which resource can prevent them from deleting the AWS CloudTrail logs?
+A.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
