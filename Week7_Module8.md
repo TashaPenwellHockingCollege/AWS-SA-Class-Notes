@@ -233,4 +233,66 @@
    * the AWS Security Token Service (AWS STS) enables you to request temp AWS credentials
    * w/ identity federation, user authenication is external to the AWS acccount
       * accompblished by using AWS STS, SAML or Cognito
+
+# Multiple Accounts
+   * Two architectural patterns
+         1.  One account w/ multiple VPCs
+               ** has separate VPC for shared services and a separate VPC for dev, test and production environments
+               ** advantage is that it provides centralized info sec management w/ minimal overhead
+         2.  Multiple accounts w/ VPC in each one
+               ** create individual accounts for various business units such dev, test and production
+               ** advantage is that get a clean separation of diff types of resources
+               ** provides additional sec benefits
+               ** when use mult accts it's an efficient strategy to create a single AWS account for common resources
+                     - i.e. MS Active Directory pr CMS
+                     - can also separate accounts for autonomous projects or depts
+   * Most org choose to create multiple accounts
+   * Advantages of multiple accounts
+         1.  isolate buisness units or depts
+         2.  isolate development, test, and production environments
+         3.  Isolate auditing data, recovery data
+         4.  Separate accounts for regulated workloads
+         5.  Easter to trigger cost alerts for each business unit's consumption
+
+
+# Challenges for Managing Multiple Accounts
+   1.  Security management across accounts
+         ** IAM policy replication
+   2.  Creating new accounts
+         ** involves many manual processes
+   3.  Billing consolidation
+   4.  Centralized governmance is needed to ensure consistency  
+
+
+# Manage multiple accounts w/ AWS Organizations
+   * Centrally manage and enforce policies across multiple AWS accounts
+      ** Group-Based account management
+            *** i.e. can create a group of similar accounts and attach a policy to the group so applies consistently to all member accounts
+      ** Policy-Based Access to AWS services
+      ** Automated Account Creation and management
+      ** Consolidated billing
+      ** API-based
+            *** use the Organizations APIs to allow you to create new accounts programmatically and add them to a group
+            *** group's policies will auto be applied tothe new account
       
+
+# Example Uses of SCPs
+   * Characteristics of Service Control Policies (SCPs)
+        1.  They enables you to control which svcs are accessible to IAM users in member accounts
+        2.  SCPs cannot be overridden by the local admin
+        3.  IAM policies that are defined in individual account still apply
+   * Example uses of SCPs
+        1.  Create a policy that blocks service access or specific actions.  i.e. Deny users from disabling AWS CloudTrail in all member accounts
+        2.  Create a policy that allows full access to specific services.  i.e. Allow full access to EC2 and CloudWatch
+        3.  Create a policy that enforces the tagging of resources
+
+
+# Key Takeaways
+   1.  You can use multiple AWS accounts to isolate business unites, dev and test environments, regulated workloads and auditing data
+   2.  AWS Organizations enables you to config automated account creation and consolidated billing
+   3.  You can configure access controls accross accounts by using service control policies (SCPs)
+
+
+
+
+
