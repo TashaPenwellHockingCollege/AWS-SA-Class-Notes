@@ -91,11 +91,53 @@
   4.  When you config Auto Scaling group, you can specify the EC2 instnace types and he combo of pricing models that it uses
 
 
+# Vertical Scaling with RDS:  Push-Button Scaling
+ * Managed service that takes care of scaling relational db and keeps up w/ increasing demands of apps
+ * Scale DB instances verticually up or down by changing the RDS instance class
+   ** when being scaled up or down, it's temp unavailable while DB instances class is being modified (usually only lasts a few minutes)
+       *** occurs during maintenance window for DB instance unless specify that modification should take place immediately
+ * can separately modify your DB instances to increase the allocated storage or improve performance by upgrading storage type
+ * can also use RDS Storage Autoscaling to auto scale storage capacity in respnse to growing DB workloads
+ * from micro to 24Xlarge and everthing in between
+ * Scale vertically w/ minimal downtime
+
+# Horizontal Scaling w/ RDS:  Read Replicas
+ * horizontal scale for read-heavy workloads
+ * up to 5 read replicas and up to 15 Aurora replicas
+ * Replication is asynchronous
+ * Available for RDS, MySQL, MariaDB, PostgreSQL and Oracle
+   ** have a built in replciation functionality
+ * uses functionality to create a specity type of DB instnace called a read replica from a source DB instance 
+ * updates made to the source DB instance are asynchronously copied to the read replica
+ * can reduce load on source DB instnace by routing read queeries from your apps to the read replica
+ * to improve performance of read-heavy db workloads can use read replicas to horizontally scale your source DB instance
+ * if there's a disaster, can increse the avail of db by promoting read replica to become a standalone DB instance
+
+# Scaling w/ Amazon Aurora
+ * Aurora is a RDB engine built for for the cloud
+ * Aurora is compatable w/ MySQL, and 
+ * Each Aurora DB cluster can have up to 15 Aurora replicas
+ * Amaozn Aurora further extends benefits of read replicas by employing a SSD backed virtualized storage layer
+   ** the layer is purpose built for DB workloads
+ * compatible w/ MySQL and PostgrSQL
+ * RDS manages your Aurora db and handles tasks such as provisioning, patching, backup, recovery, failure detection and repair
+ * features a distributed, fault-tolerant, self-healing storage system that auto scales up to 64 TB per DB instance
+ * delivers high-performance and availability, point-in-time recovery, continuous backup to S3 and replication across 3 AZ 
+ * Aurora DB cluster contains one or more DB instances and cluster volume that manages the data for those DB instances in an Aurora DB cluster
+   1.  Primary DB instance
+          ** supports read and write operations
+          ** performas all data modification to the cluster volume
+          ** each Aurora DB cluster has 1 primary DB instance
+   2.  Aurora Replica
+          ** connects to same storage volume as the primary DB instance
+          ** supports read only ops
+          ** each Aurora DB cluster can have up to 15 Aurora replicas in addition to primary DB instnace
+          ** can choose DB class size and add Aurora replicas to increase read throughput
+          ** can mofidy the DB instance class size and change number of Aurora replicas if workload changes
+          ** models works well when DB workload is predictable because can change capacity manually based on expected workload
 
 
-
-
-
+Week 8 - Implementing Elasticity, High Availability, and MonitoringPart 1: Scaling your Databases
 
 
 
