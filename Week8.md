@@ -164,8 +164,56 @@
  * drawback is that data is spread across shards so data mapping and routing logic must be specifically engineered to read or join data from multiple shards compared to a nonsharded db
 
 
+# Scaling with Amazon DynamoDB:  On-Demand
+ * On-Demand / pay per request pricing model inspead of a provisioned pricing model
+ * no more provisioning
+ * can observe any increase or scale of the level of traffic
+ * Use Case:  Spiky, unpredictable workloads.  Rapidly accomodates to need
+ * Amazon DynamoDB On-Demand is a flexibile billing option
+ * can serve thousands of requests per second w/o capacity planning
+ * can change a table from provisioned capacity to on-demand one time per day but can go from on-demand capacity to provisioned as often as you want
 
 
+# Scaling w/ Amazon DynamoDB:  Auto Scaling
+ * Auto scaling is default for all new tables
+ * auto adjusts read and write throughput capacity in response to dynamically chaging request volumes w/o any downtime
+ * specify upper and lower bounds for desired throughput utilization
+ * Use Case:  general scaling, good solution for most applications
+ * works w/ Amazon CloudWatch to monitor actual throughput consumption
+ * no additional cost to use DynamoDB auto scaling, jsut pay for DynamoDB and CloudWatch alarms
+
+# How to Implement DynamoDB Auto Scaling
+ 1.  User creates scaling policy
+          ** create a scaling policy in DynamoDB table or the Global Secondary Index (GSI)
+          ** specifies if wnat to scale read capacity or write capacity or both
+          ** specifies min and max provisioned capacity unit settings for the table or index
+ 2.  Consumed capacity metrics in DynamoDB are published to Amazon CloudWatch
+         ** published consumed capacity metrics to Amazon CloudWatch  
+         ** if table's consumed capacity exceeds  target utilization or falls below for a specific length  of time, CloudWatch triggers an alarm
+ 3.  CloudWatch uses SNS to send email to user
+ 4.  CloudWatch alarm invokes Application Auto Scaling
+ 5.  Application Auto Scaling issues "UpdateTable" request
+          * service dynamically adjust provisioned throughput capacity on your behalf in response to actual traffic patterns
+          * enables a table or a Global Secondary Indext (GSI)
+          * increase the provisioned read and write capacity of DynamoDB to handle sudden increases in traffic w/o throttling 
+ 6.  DynamoDB processes request
+
+
+# Scaling throughput capacity:  DynamoDB adaptive capacity
+ * when data access is imbalanced, one partition can receive a higher volume of read and write traffic compared to other partitions (this is called a hot partition)
+ * can occure if a single partition received more than 3,000 read capacity units and 1,000 write capacity units (in extreme cases)
+ * enables reading and writing to hot partitions w/o throttling
+ * auto increases throughput capacity for partitions that receive more traffic
+         ** traffic cannot exceed the table's total provisioned capacity or the partition's max capacity
+ * enabled auto for every DynamoDB table
+ * Read Capacity Units (RCUs) and Write Capacity Units (WCUs)
+ * DynamoDB Adaptive Capacity lets your app continue reading and writing to hot partitions w/o being throttled
+        ** traffic cannot exceed table's total provision capacity or partitoin maximum capacity
+ * Adaptive capacity works by auto increasing throughput capacity for partitions that receive more traffic
+ * Adaptive capacity is enabled auto for every DynamoDB table so no need explicity enable/disable it
+
+
+Week 8 - Implementing Elasticity, High Availability, and MonitoringPart 2: Scaling your Databases
 
 
 
