@@ -135,9 +135,33 @@
           ** can choose DB class size and add Aurora replicas to increase read throughput
           ** can mofidy the DB instance class size and change number of Aurora replicas if workload changes
           ** models works well when DB workload is predictable because can change capacity manually based on expected workload
+          
+# Amazon Aurora Serverless
+ * Responds to your application automatically
+    ** scales capacity 
+    ** starts up
+    ** shuts down
+ * Pay for the number of Aurora capacity units (ACUs) that are used
+    ** each ACU is a combo of processing and memory capacity
+    ** DB storage auto scales from 10 Gibibytes to 64 Tebibytes and it's the same as storage in a standard Aurora DB cluster
+    ** DB endpoint connects to a proxy fleet that routes the workload to a fleet of resources
+    ** Aurora Serverless scales the resources auto based on the minimum and maximum specification for capacity
+    ** pay for number of ACUs used and are calculated on a per-second basis for the db capacity you use when the db is active and when you migrate between standard and serverless configurations
+ * Good for intermitten and unpredictable workloads
 
-
-Week 8 - Implementing Elasticity, High Availability, and MonitoringPart 1: Scaling your Databases
+# Horizontal Scaling:  Database Sharding
+ * without shards, all data resides in one partition
+    ** example:  Employee IDs in one db
+ * With sharding, data is split into large chunks (shards) 
+    ** Example:  even-number employee IDs in one db and the odd-number employee IDs in another db
+ * Sharding can improve write performance
+ * DB shards usually have the same type of HW, db Engine and data structure so they generate a similar level of performance
+ * DB shards DO NOT have knowledge of each other (this is the big difference between sharding and other scale-out approaches such as db clusting or replication)
+ * sharded db architecture offers scalability and fault tolerance
+ * data can be split across as many db servers as necesssary
+ * if 1 db shard has a HW issues or goes through failover, no other shards are impacted
+    ** single point of failure or slowdown is physiclaly isolated
+ * drawback is that data is spread across shards so data mapping and routing logic must be specifically engineered to read or join data from multiple shards compared to a nonsharded db
 
 
 
