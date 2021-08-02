@@ -213,7 +213,13 @@
  * Adaptive capacity is enabled auto for every DynamoDB table so no need explicity enable/disable it
 
 
-Week 8 - Implementing Elasticity, High Availability, and MonitoringPart 2: Scaling your Databases
-
+# Key Takeaways
+* you can push-button scaling to vertically scale compute capacity for RDS DB instance
+* can use read replicas or shards to horizontally scale your RDS DB instance
+* with Amazon Aurora can choose the DB instance class size and number of Aurora replicas (up to 15)
+* Aurora Serverless scales resources automatically based on the minimum capacity specs
+* Amazon DynamoDB On-Demand offers a pay per request pricing model
+* DynamoDB auto scaling uses Amazon Application Auto Scaling to dynamically adjust provisioned throughput capacity
+* DynamoDB adaptive capacity works by auto increasing throughput capacity for partitions that receive more traffic
 
 
