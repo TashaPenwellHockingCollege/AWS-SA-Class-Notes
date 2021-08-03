@@ -309,6 +309,83 @@
   *  Route 53 offers various routing options that can be combined w/ DNS failover to enable low-latency, fault-tolerant architecture
 
 
+# Monitoring usage, operations and performance
+  * monitoring helps keep track of how resources are operating and performing, along w/ resource utilization and app performance to make sure infra is meeting demand
+  * monitoring can help decided what permissions to set for AWS resources to achieve security goals
+
+# Monitoring Costs
+  * create a more flexible and elastic architecture, should know where you are spending money
+  * AWS monitoring and reporting tools
+     1.  AWS Cost Explorer
+     2.  AWS Budgets
+     3.  AWS Cost & Usage Report
+     4.  Cost Optimziation Monitor
+  * AWS Cost Explorer
+     ** manage AWS costs and usage w/ daily or monthly details
+     ** can view data up to the last 13 months which helps you see patterns in how you spend on AWS resources over time
+  * AWS Budgets
+     ** set custom budgets that alert you when costs or usage exceed or are forecasted to exceed your budgeted amount
+  * AWS Cost and Usage Report
+     ** contains the most comprehensive set of AWS cost and usage data available
+     ** includes metadata about AWS services, pricing and reservation
+  * Cost Optimization Monitor
+     ** solution arch that auto processes detailed billing reports
+     ** provides granular metrics that can search, analyze and visualize in a dashboard that you can customize 
+     ** provides insight into service usage and cost
+     ** can break down this data by period, account, resource or tags
+
+# Amazon CloudWatch
+    * collects and tracks metrics for resources and apps
+    * helps correlate, visualize and analyze metrics and logs
+    * enables you to create alamrs and detect anomalous behavior
+    * can send notifications or make changes to resources that you are monitoring
+    * CloudWatch components can use
+      1.  Metrics
+      2.  Logs
+      3.  Alarms
+      4.  Events
+      5.  Rules
+      6.  Targets
+ * Metrics
+    ** data about the performance of your system
+    ** can be kept for 15 months 
+    ** can view both up-to-the minute data and historical data
+ * Amazon CloudWatch Logs
+    ** can use CloudWatch Logs to monitor, store and access log files from difference sources 
+* Amazon CloudWatch Alarms
+    ** can use an alarm to auto respond to monitored conditions
+    ** single metric over a certain time period
+    ** performs 1+ specified actions based on value of metric relative to threshold over time
+    ** action is a notification sent to an Auto Scaling policy to a topic in SNS
+    ** alarms invoke actions for sustained state changes only; don't inovke actions jsut becasue they are in a particular state; the state must have changed and been maintained for specified number of periods; this avoids triggering alarms on transient spikes
+    
+# Amazon EventBridge Events 
+  * ingests a stream of real-time data from your own apps, AWS services or SaaS
+  * routes data to targets such as Lambda
+  * event = change in an environment
+  * this can be an AWS environment, SaaS APN partner service or one of own custom apps or services
+  * can set up scheduled events that are generated on periodic basis
+
+# Amazon EventBridge Rules
+ * matches incoming events and routes them to targets for processing
+ * a single rule can route to multiple targets which are all processed in parallel
+ * rules aren't processed in particualr order
+ * sends info in JSON
+ * can customize info in the JSON that sent to target by passing only certain parts or by overriding it w/ a constant
+ 
+# Amazon EventBridge Targets
+ * target processes events
+ * targets can included EC2 instances, Lambda functions, Kinesis streams, ECS tasks, AWS Step functions state machines, SNS  topics, SQS queues, and built-in targets
+ * targets receive events in JSON format; when you create a rule, you associate it w/ a specific event bus
+ * the rule is matched only to events received by that event bus
+
+
+# How CloudWatch and EventBridge Work
+ 1. CloudWatch acts a metrics repo
+ 2. an AWS service (i.e. EC2) puts metrics into the repo
+ 3. you retrieve stats based on those metrics; if put own custom metrics in repo can also retrieve stats on these metrics
+     * can use metrics to calculate stats and preset data graphically in the CloudWatch console
+ 4.  can also create a rule  in EventBridge that matches incoming events and routes them to targets for processing; can configure alarm actions to stop, start or terminate EC2 instance when certain criterai are met
       
   
 
