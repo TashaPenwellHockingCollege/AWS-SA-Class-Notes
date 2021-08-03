@@ -307,6 +307,8 @@
 # Key Takeaways
   *  Can design your network arch to be highly available and avoid single points of failure
   *  Route 53 offers various routing options that can be combined w/ DNS failover to enable low-latency, fault-tolerant architecture
+
+
       
   
 
