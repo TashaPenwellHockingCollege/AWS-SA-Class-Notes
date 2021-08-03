@@ -267,5 +267,46 @@
   ** if resources in one AZ are unreachable application shouldn't fail
   ** uses a load balancer to distribute traffic among those resources
   ** if use data sources that only support primary or secondary failover then app may not benefit from using mor AZs than that
-
+  ** because AZ are spread out physically, won't receive much benefit from duplicating resources in 3+ AZ in one AWS Region
+  ** for heavy EC2 Spot Instances usage or for data sources that go beyond active/passive (such as Amaozn DynamoDB) there may be a benefit to using >2 AZ
+  
+# Amazon Route 53
+  ** Amazon Route 53 is a highly available and scalable cloud DNS service
+  ** translates domain names into IP addresses
+  ** connects user requests to infra that runs inside and outside of AWS
+  ** can be configured to route traffic to healthy endpoints or to monitor the heald of your application its endpoints
+  ** offers registration for domain names
+  ** has multiple routing options
+  
+# Amazon Route 53 Supported Routing
+  1. Simple routing (aka "round robin")
+      ** distributes number of requests as evently as possible between all participating servrs
+  2.  Weighted Round Robin Routing
+      ** assign weights to resource record sets to specify the frequency that different responses are served at
+      ** can use this type of routing to do A/B testing (testing when send small portion of traffic to server where made SW change)
+  3.  Latency Based Routing
+      ** when you have resources in multiple AWS Regions and want to route traffic to the Region that provides the best latency and fastest experience for your users
+  4.  Geolocation Routing
+      ** choose the resources that serve your traffic based on geo location of users (origin of DNS queries)
+      ** can localize content and present some or all of website in language of users
+  5.  Geoproximity Routing
+      ** used w/ Route 53 Traffic Flow
+      ** lets you route traffic based on physical distanced between users adn resources 
+      ** can route more or less traffic to each resource by specifiying a positive or negative bias
+      ** when creating a traffic flow policy, can specify either an AWS Region, if using AWS resources or the latitude and longitude for each endpoint
+  6.  Failover Routing (or DNS failover)
+      ** use when want to configure active-passive failover
+      ** Route 53 can help detect if website has an outage and redirect users to alternate working locations
+      ** when enabled, Route 53 health checking agents monitor location/endpoint of app to determine availability
+      ** can increase availability of customer-facing app
+  7.  Multvalue Answer Routing
+      ** route traffic to multiple resources like web servers in an approximately random way, can create 1 multivalue answr record for each resource
+      ** optionally associate a Route 53 Health Check w/ each record
+      ** i.e. you manage an HTTP web service w/ 12 web servers and each server has its own IP address.  No one web server can handle all the traffic, if you create a dozen multivalue answer records, Route 53 responds to DNS queries w/ up to 8 healthy records in response to each DNS query.  Also gives different answers to different DNS resolvers.  if a web server becomes unavailable after a resolver caches a response
+      
+# Key Takeaways
+  *  Can design your network arch to be highly available and avoid single points of failure
+  *  Route 53 offers various routing options that can be combined w/ DNS failover to enable low-latency, fault-tolerant architecture
+      
+  
 
