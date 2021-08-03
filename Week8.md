@@ -223,3 +223,49 @@
 * DynamoDB adaptive capacity works by auto increasing throughput capacity for partitions that receive more traffic
 
 
+# Highly Available Systems
+* can withstand some measure of degradation while remaining available
+* have minimized downtime
+* require minimal human intervention
+* recover from failure or roll over to secondary source in an accepatble amount of degraded performance
+
+# Elastic Load Balancing
+* Managed load balancing service that distributes incoming app traffic across multiple EC2 instances, containers, IP address, and Lambda functions
+* can be external-facing or internal-facing
+* each load blanacers receives a default DNS name
+* recognizes adn responds to unhealthy instances
+
+# Types of Load Balancers
+* Elastic Load Balancers come in three types
+    1.  Application Load Balancers
+    2.  Network Load Blanacer
+    3.  Classic Load Balancer
+* Application Load Balancers
+  ** operates at the application layer (layer 7) in the Open Systems Interconenction model (OSI)
+  ** works well for advanced load balancing of HTTP or HTTPS traffic
+  ** routes traffic to targets like EC2 isntances, containers, IP addresses and Lambda functions based on the content of the request
+  ** flexible application management
+  ** advanced Load balancing of HTTP and HTTPS traffic
+  ** operates at the rquest level (Layer 7)
+* Network Load Balancer
+  ** operates at Network TRansport Layers of OSI model Layer 4
+  ** routes connections to targets such as EC2 instances, microservices and containers
+  ** works well for load blaancing both TCP and UDP traffic
+  ** TCP, UDP, TLS
+  ** ultra-high performance and static IP addr4ess for your application
+  ** load blaancting of TCP, UDP and TLS traffic
+  ** operates at the connection level (Layer 4)
+* Classic Load Balancer
+  ** provides basic load balancing across multiple EC2 instances and operates in both application and network transport layer
+  ** previous generation for HTTP, HTTPS, TCP adn SSL
+  ** load balancing across multiple EC2 instances
+  ** operates at both the rqeuest level and connection level
+  ** recommend use the dedicated Application Load Balancer or Network Load Balancer 
+  
+# Implementing High Availability
+  ** start w/ 2 AZ per AWS Region
+  ** if resources in one AZ are unreachable application shouldn't fail
+  ** uses a load balancer to distribute traffic among those resources
+  ** if use data sources that only support primary or secondary failover then app may not benefit from using mor AZs than that
+
+
